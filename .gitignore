@@ -1,4 +1,6 @@
 *.log
+composer.json
+composer.lock
 .env
 .DS_Store
 Thumbs.db
@@ -8,3 +10,4 @@ Thumbs.db
 /.buildpath
 /.project
 /.runtime
+
