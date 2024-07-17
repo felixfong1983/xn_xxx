@@ -1,0 +1,64 @@
+{extend name="main" /}
+
+{block name="body"}
+{include file="breadcrumb" /}
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <div class="btn-box">
+                <a href="{:url('add')}" data-width="600px" data-height="450px" class="layui-btn layui-btn-sm xn_open" title="添加管理员">添加管理员</a>
+            </div>
+            <table class="layui-table" style="margin-top: 0;">
+                <tr>
+                    <th>用户名</th>
+                    <th>用户组</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+
+                <tbody>
+                {foreach name="list" item="vo"}
+                <tr>
+                    <td>{$vo.username}</td>
+                    <td>
+                        {foreach name="vo.auth_group_access" item="v"}
+                        <span class="layui-badge layui-bg-orange">{$v.title}</span>
+                        {/foreach}
+                    </td>
+                    <td class="layui-form">
+                        <input type="checkbox" lay-verify="required" lay-filter="status" name="status" data-id="{$vo.id}"
+                               lay-skin="switch" lay-text="正常|禁止" value="1" {if condition="$vo['status'] eq 1"}checked{/if} >
+                    </td>
+                    <td>
+                        <a href="{:url('edit',array('id'=>$vo['id']))}" data-width="600px" data-height="450px" title="修改用户信息" class="layui-btn layui-btn-normal layui-btn-sm xn_open">
+                            修改
+                        </a>
+                        {if condition="$vo['id'] neq 1"}
+                        <a href="{:url('delete',array('id'=>$vo['id']))}" title="确认要删除【{$vo.username}】吗？" class="layui-btn layui-btn-danger layui-btn-sm xn_delete">
+                            删除
+                        </a>
+                        {/if}
+                    </td>
+                </tr>
+                {/foreach}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="js"}
+<script>
+    layui.form.on('switch(status)', function(data){
+        //layer.tips('开关checked：'+ (this.checked ? 'true' : 'false'), data.othis)
+        var val = this.checked ? 1 : 0;
+        var id = $(this).attr('data-id');
+        var url = "{:url('edit')}";
+        $.post(url,{id:id,status:val},function (res) {
+            console.log(res);
+            layer.tips(res.msg, data.othis);
+        },'json')
+    });
+</script>
+{/block}

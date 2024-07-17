@@ -1,0 +1,51 @@
+{extend name="main" /}
+
+{block name="body"}
+{include file="breadcrumb" /}
+<div class="layui-fluid">
+  <div class="layui-card">
+    <div class="layui-card-body">
+
+      <table class="layui-table">
+        <thead>
+        <tr>
+          <th>Id</th>
+          <th>标签名</th>
+          <th>语言</th>
+          <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach name="list.data" item="vo"}
+        <tr>
+          <td>{$vo.id}</td>
+          <td>{$vo.name}</td>
+          <td>
+          {foreach name="vo.lang_info" item="langV"}
+            <a href="{:url('delTagLang',array('tag_id'=>$vo['id'],'lang_id'=>$langV['id']))}" type="button" class="layui-btn layui-btn-sm xn_delete" title="确认删除？">{$langV.code}</a>
+          {/foreach}
+            <a href="{:url('langList',array('tag_id'=>$vo['id']))}" type="button" class="layui-btn layui-btn-primary layui-btn-sm add_lang xn_open" data-width="400px" data-height="600px" tag-id="{$vo.id}">
+              <i class="layui-icon layui-icon-add-1"></i>
+            </a>
+          </td>
+
+          <td>
+            <a href="{:url('deleteTag',array('id'=>$vo['id']))}" class="xn_delete layui-btn-sm layui-btn layui-bg-red" title="are u sure？">
+              删除
+            </a>
+          </td>
+        </tr>
+        {/foreach}
+        </tbody>
+      </table>
+      <div class="layui-row">
+        {include file="list_rows" /}
+        <div class="pages">{$page|raw}</div>
+      </div>
+    </div>
+</div>
+{/block}
+
+{block name="js"}
+
+{/block}

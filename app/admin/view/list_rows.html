@@ -1,0 +1,14 @@
+<!--选中分页条数-->
+<select name="list_rows" class="list_rows" onchange="setlistRows(this.value)" style="font-size: 12px">
+    <option value="10" {if condition="input('limit')!='' and (input('limit') eq 10)" } selected="selected" {/if}>每页10条</option>
+    <option value="20" {if condition="input('limit')=='' || (input('limit') eq 20)" } selected="selected" {/if}>每页20条</option>
+    <option value="50" {if condition="input('limit')!='' and (input('limit') eq 50)" } selected="selected" {/if}>每页50条</option>
+    <option value="100" {if condition="input('limit')!='' and (input('limit') eq 100)" } selected="selected" {/if}>每页100条</option>
+</select>
+<script>
+    function setlistRows(val) {
+        var url;
+        url = changeURLArg(window.location.href, 'limit', val)
+        window.location.href = url;
+    }
+</script>

@@ -1,0 +1,56 @@
+{extend name="iframe" /}
+
+{block name="body"}
+<div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;">
+    <form action="{:url('change_title',array('id'=>$videoInfo['id']))}" method="post" class="xn_ajax" data-type="open">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">标题</label>
+            <div class="layui-input-block">
+                <input type="text" name="" value="{$videoInfo.title}"  class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-block">
+                <button type="submit" class="layui-btn" >修改标题</button>
+            </div>
+        </div>
+    </form>
+        <div class="layui-form-item">
+            <label class="layui-form-label">标签</label>
+            <div class="layui-btn-container">
+                <div class="layui-input-block">
+                    {foreach name="tags" item="tag"}
+                    <a href="{:url('info',array('id'=>$tag['id']))}" class="layui-btn layui-btn-sm xn_delete">{$tag.name}</a>
+                    {/foreach}
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">封面视频</label>
+            <div class="layui-input-block">
+                <video controls>
+                    <source src="{$videoInfo.cover_video}" type="video/mp4">
+                </video>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">最新地址</label>
+            <div class="layui-input-block">
+                <div class="layui-inline">
+                    <span style="text-align: center">{$videoInfo.src}</span>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">地址状态</label>
+            <div class="layui-input-block">
+                <div class="layui-inline">
+                    <button type="button" class="layui-btn">{$videoInfo.linkStatus}</button>
+                </div>
+            </div>
+        </div>
+
+</div>
+{/block}

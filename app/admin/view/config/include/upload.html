@@ -1,0 +1,66 @@
+<form action="{:request()->url()}" method="post" class="xn_ajax">
+    <input type="hidden" name="type" value="upload" />
+    <div class="layui-row">
+        <div class="layui-col-xs6">
+            <div class="layui-form" wid100="" lay-filter="">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">存储方式</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="storage" lay-filter="radio_storage" class="radio_storage" value="local" title="本地" {if condition="$data['upload']['storage'] eq 'local'"}checked=""{/if}>
+                    </div>
+                </div>
+                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                    <legend>图片处理</legend>
+                </fieldset>
+                <!--<div class="layui-form-item">
+                    <label class="layui-form-label">生成缩略图</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="thumb" value="{$data.thumb}" class="layui-input" placeholder="例如：200,200 多个缩略图用“|”号隔开，不生成请留空">
+                    </div>
+                </div>
+                <hr>-->
+                <div class="layui-form-item">
+                    <label class="layui-form-label">图片水印</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" name="is_water" value="1" {if condition="$data['upload']['is_water'] eq 1"} checked{/if} lay-skin="switch" lay-text="开启|关闭">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">水印文件路径</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="water_img" value="{$data.upload.water_img}" class="layui-input">
+                        <div class="layui-form-mid layui-word-aux">不能是网络图片</div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">水印位置</label>
+                    <div class="layui-input-inline">
+                        <select name="water_locate">
+                            <option value="1" {if $data.upload.water_locate eq '1'}selected{/if}>左上角</option>
+                            <option value="2" {if $data.upload.water_locate eq '2'}selected{/if}>上居中</option>
+                            <option value="3" {if $data.upload.water_locate eq '3'}selected{/if}>右上角</option>
+                            <option value="4" {if $data.upload.water_locate eq '4'}selected{/if}>左居中</option>
+                            <option value="5" {if $data.upload.water_locate eq '5'}selected{/if}>居中</option>
+                            <option value="6" {if $data.upload.water_locate eq '6'}selected{/if}>右居中</option>
+                            <option value="7" {if $data.upload.water_locate eq '7'}selected{/if}>左下角</option>
+                            <option value="8" {if $data.upload.water_locate eq '8'}selected{/if}>下居中</option>
+                            <option value="9" {if $data.upload.water_locate eq '9'}selected{/if}>右下角</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">透明度</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="water_alpha" value="{$data.upload.water_alpha}" autocomplete="off" class="layui-input" placeholder="">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">0~100，数字越小，透明度越高</div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit="" lay-filter="set_website">确认保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

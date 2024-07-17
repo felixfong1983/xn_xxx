@@ -1,0 +1,97 @@
+{extend name="main" /}
+
+{block name="body"}
+{include file="breadcrumb" /}
+<div class="layui-fluid">
+  <div class="layui-card">
+    <div class="layui-card-body">
+<!--      <div class="btn-box">-->
+<!--        <a href="{:url('add')}" class="layui-btn layui-btn-sm xn_open" data-width="70%" data-height="90%">添加</a>-->
+
+<!--        <button type="button" lay-on="deleteAll" class="layui-btn layui-btn-danger layui-btn-sm" title="">-->
+<!--          删除选中-->
+<!--        </button>-->
+<!--      </div>-->
+      <table class="layui-table">
+        <thead>
+        <tr>
+          <th width="40">
+<!--            <div class="layui-form">-->
+<!--              <input type="checkbox" name="selectAll" value="1" title="全选" lay-filter="selectAll">-->
+<!--            </div>-->
+            ID
+          </th>
+
+          <th>采集站ID</th>
+          <th>标题</th>
+          <th>图片</th>
+<!--          <th>列表封面视频</th>-->
+          <th>点赞数</th>
+          <th>点踩数</th>
+          <th>清晰度</th>
+          <th>视频长度</th>
+          <th>是否上架</th>
+          <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach name="list" item="vo"}
+        <tr>
+          <td>
+<!--            <div class="layui-form">-->
+<!--              <input class="item-id" type="checkbox" name="id[]" title="{$vo.id}" value="{$vo.id}">-->
+<!--            </div>-->
+            {$vo.id}
+          </td>
+          <td>{$vo.video_id}</td>
+          <td>{$vo.title}</td>
+          <td><img src="{$vo.img}" /></td>
+<!--          <td>-->
+<!--            <video controls>-->
+<!--              <source src="{$vo.cover_video}" type="video/mp4">-->
+<!--            </video>-->
+<!--          </td>-->
+          <td>{$vo.likes}</td>
+          <td>{$vo.dislikes}</td>
+          <td>{$vo.definition}</td>
+          <td>{$vo.length}</td>
+
+
+          <td class="layui-form">
+            <input type="checkbox" lay-verify="required" lay-filter="is_online" name="is_online" data-id="{$vo.id}"
+                 data-is-online="{$vo['is_online']}"  lay-skin="switch" lay-text="上架|下架" {if condition="$vo['is_online'] eq 1"}checked{/if}>
+          </td>
+          <td>
+            <a href="{:url('info',array('id'=>$vo['id']))}" data-width="800px" data-height="800px" title="edit video info" class="layui-btn layui-btn-normal layui-btn-sm xn_open">
+              详细信息
+            </a>
+          </td>
+        </tr>
+        {/foreach}
+        </tbody>
+      </table>
+      <div class="layui-row">
+        {include file="list_rows" /}
+        <div class="pages">{$list|raw}</div>
+      </div>
+    </div>
+</div>
+{/block}
+
+{block name="js"}
+<script>
+
+    layui.form.on('switch(is_online)', function(data){
+      //layer.tips('开关checked：'+ (this.checked ? 'true' : 'false'), data.othis)
+      var val = $(this).attr('data-is-online');
+      var id = $(this).attr('data-id');
+      var url = "{:url('edit_is_online')}";
+      $.post(url,{id:id,is_online:val},function (res) {
+        // console.log(res);
+        xn_alert(res.msg);
+      },'json')
+    });
+
+
+</script>
+{/block}
