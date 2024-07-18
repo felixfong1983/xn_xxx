@@ -1,12 +1,9 @@
 <?php
 
-namespace app\index\controller;
+namespace app\api\controller\base;
 
-use app\index\common\Tag;
-use app\index\common\Video;
-use app\index\common\Visitor;
+use app\api\common\Visitor;
 use app\Request;
-use think\Response;
 use think\response\Json;
 use think\response\Redirect;
 

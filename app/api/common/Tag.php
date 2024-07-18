@@ -1,6 +1,6 @@
 <?php
 
-namespace app\index\common;
+namespace app\api\common;
 use app\common\model\Tag as TagModel;
 
 class Tag

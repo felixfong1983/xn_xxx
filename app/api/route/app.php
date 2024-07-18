@@ -12,4 +12,4 @@ use think\facade\Route;
 
 
 
-Route::get('/', 'index/api/index');
+//Route::get('/', 'index/api/index');

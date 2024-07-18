@@ -1,6 +1,6 @@
 <?php
 
-namespace app\index\common;
+namespace app\api\common;
 use app\common\model\Country as CountryModel;
 use app\common\model\Language;
 use app\common\model\Visitor as VisitorModel;

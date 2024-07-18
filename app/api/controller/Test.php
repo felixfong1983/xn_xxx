@@ -1,11 +1,9 @@
 <?php
-namespace app\index\controller;
+namespace app\api\controller;
 
 
-use app\index\facade\Visitor;
 use app\common\service\GoogleLanguage;
-
-
+use app\api\controller\base\Base;
 
 
 class Test extends Base
