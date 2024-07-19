@@ -17,7 +17,7 @@ class Index extends Base
             ->getLangPacks($this->visitor->langCode); //当前语种语言包
         //dump($lang);
         $tags = app('app\api\common\Tag')
-            ->getTags($this->visitor->lang_id,$this->request->param('tag_rows',100));
+            ->getTags($this->visitor->lang_id,$this->request->param('tag_rows',30));
 
         //dump($tags);
         $videoList = app('app\api\common\Video')
@@ -26,11 +26,12 @@ class Index extends Base
 
         $configObj = app('app\api\common\Config');
         $config = $configObj->getWebConfigByLangId($this->visitor->lang_id);
+        $config['logo'] = './logo.jpg';
         $langList = $configObj->getIsOpenLanguage();//开放的语言列表
         return $this->success([
             'lang' => $lang,
-            'tags' => $tags,
             'videoList' => $videoList,
+            'tags' => $tags,
             'config' => $config,
             'langList' => $langList,
             'visitor' => [
@@ -44,12 +45,13 @@ class Index extends Base
     //标签页及搜索页
     public function tag_videos_list() : Json
     {
+        $param = $this->request->param();
 
         $videoList = app('app\api\common\Video')
-            ->getVideoList($this->request->param('tag_id','rows'));
+            ->getVideoList($param['tag_id'],$param['rows']);
         $config = app('app\api\common\Config')->SeoData($videoList);
 
-        return $this->success(['data' => $videoList,'config' => $config]);
+        return $this->success(['videoList' => $videoList,'config' => $config]);
     }
 
 
@@ -59,7 +61,7 @@ class Index extends Base
         $video = app('app\api\common\Video')->getVideoById($this->request->param('id'));
         if (!$video)  return $this->error('this id is not exist');
         $config = app('app\api\common\Config')->SeoData($video);
-        return $this->success(['data' => $video,'config' => $config]);
+        return $this->success(['videoDetail' => $video,'config' => $config]);
     }
 
 

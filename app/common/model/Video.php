@@ -21,12 +21,12 @@ class Video extends Model
     }
 
     //根据标签读取视频列表
-    public function getVideoByTag($tagId)
+    public function getVideoByTag($tagId,$rows)
     {
         return $this->name('video')->alias('v')
             ->field('v.id,v.video_id,v.title,v.img,v.cover_video,v.dislikes,v.likes,v.definition,v.length')
             ->join('video_tag_access vt','vt.video_id = v.id')
-            ->where(['is_online' => 1,'vt.tag_id' => $tagId])->select()->toArray();
+            ->where(['is_online' => 1,'vt.tag_id' => $tagId])->paginate($rows)->toArray();
     }
 
     //前台视频播放页  判断is_online 是否上架
@@ -42,8 +42,8 @@ class Video extends Model
     public function getBestVideoList($rows)
     {
         return $this->field('id,video_id,title,img,cover_video,dislikes,likes,definition,length')
-            ->where(['is_online' => 1])->order('likes desc')->limit($rows)
-            ->select()->toArray();
+            ->where(['is_online' => 1])->order('likes desc')
+            ->paginate($rows)->toArray();
     }
 
 

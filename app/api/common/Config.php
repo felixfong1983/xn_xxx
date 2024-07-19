@@ -29,6 +29,7 @@ class Config
     //组合页面SEO数据
     public function SeoData($data) : array
     {
+
         $action = Request::action();
         $seoData = [];
         if($action == 'tag_videos_list')
@@ -41,7 +42,7 @@ class Config
         }elseif($action == 'video_detail'){
             $seoData['title'] = $data['title'];
             $keywords = '';
-            foreach($data['tag'] as $v)
+            foreach($data['tags'] as $v)
             {
                 $keywords .= $v['name'] . ' ' ; //连接空格  把标签分开
             }

@@ -15,9 +15,9 @@ class Video
     }
 
     //根据标签或取视频列表
-    public function getVideoList($tagId)
+    public function getVideoList($tagId,$rows)
     {
-        return $this->videoModel->getVideoByTag($tagId);
+        return $this->videoModel->getVideoByTag($tagId,$rows);
     }
 
     //获取主页最佳视频
@@ -32,9 +32,9 @@ class Video
     {
         $data = $this->videoModel->getVideoById($id);
         if(!$data) return false;
-        $data['m3u8'] = VideoLink::getPlayLink(['video_id' => $data['video_id']]);
+        $data['src'] = VideoLink::getPlayLink(['video_id' => $data['video_id']]);
         $tagModel = new \app\common\model\Tag();
-        $data['tag'] = $tagModel->getTagsByVideoId($data['id']);
+        $data['tags'] = $tagModel->getTagsByVideoId($data['id']);
         return $data;
     }
 
