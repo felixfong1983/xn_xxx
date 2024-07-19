@@ -31,6 +31,7 @@ class Video
     public function getVideoById($id)
     {
         $data = $this->videoModel->getVideoById($id);
+        if(!$data) return false;
         $data['m3u8'] = VideoLink::getPlayLink(['video_id' => $data['video_id']]);
         $tagModel = new \app\common\model\Tag();
         $data['tag'] = $tagModel->getTagsByVideoId($data['id']);

@@ -29,10 +29,13 @@ class Video extends Model
             ->where(['is_online' => 1,'vt.tag_id' => $tagId])->select()->toArray();
     }
 
+    //前台视频播放页  判断is_online 是否上架
     public function getVideoById($id)
     {
-        return $this->field('id,video_id,title,img,cover_video,dislikes,likes,definition,length,is_online')
-            ->find($id)->toArray();
+        $data = $this->field('id,video_id,title,img,cover_video,dislikes,likes,definition,length')
+            ->where(['is_online' => 1])->find($id);
+        if($data) return $data->toArray();
+        return false;
     }
 
     //主页最佳视频

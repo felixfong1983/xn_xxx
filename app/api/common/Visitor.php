@@ -55,6 +55,7 @@ class Visitor
     {
 
         $language = new Language();
+
         $this->lang_id = $language->langId;
         $this->langCode = $language->langCode; //所用语言信息
 

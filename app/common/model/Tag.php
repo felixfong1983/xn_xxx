@@ -36,6 +36,12 @@ class Tag extends Model
         return $this->where('name',$name)->value('id');
     }
 
+    public function getTagName($id)
+    {
+        return $this->where('id',$id)->value('name');
+    }
+
+
     //通过视频ID找出标签
     public function getTagsByVideoId($videoId)
     {

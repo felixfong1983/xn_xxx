@@ -13,7 +13,8 @@ class Language extends ProcessBase
     //检测标签语言
     public static function tagLanguage()
     {
-        $tagData = Tag::limit('40','30')->field('id,name')->order('id')->select()->toArray();
+
+        $tagData = Tag::limit('0','10')->field('id,name')->order('id')->select()->toArray();
 
         foreach ($tagData as $k => $v)
         {
@@ -22,8 +23,7 @@ class Language extends ProcessBase
             $tagData[$k]['language'] = $result['language'];
 
         }
-        dump($tagData);
-
+        
         foreach ($tagData as $tagK => $tagV)
         {
             $langId = Db::name('language')->where('iso_code',$tagV['language'])->find()['id'];

@@ -11,4 +11,12 @@ class Config extends Model
     {
         return $this->field('title,desc,keywords')->where(['lang_id' => $langId])->find()->toArray();
     }
+
+    //关键词
+    public function getkeywordsByLangId($langId)
+    {
+        return $this->field('title,desc,keywords')->where(['lang_id' => $langId])->value('keywords');
+    }
+
+
 }
