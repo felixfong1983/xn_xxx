@@ -4,6 +4,8 @@
 // +----------------------------------------------------------------------
 
 return [
+    // 开启应用快速访问
+//    'app_express'    =>    true,
     // 应用地址
     'app_host'         => env('APP_HOST', ''),
     // 应用的命名空间
@@ -16,9 +18,13 @@ return [
     'default_timezone' => 'Asia/Shanghai',
 
     // 应用映射（自动多应用模式有效）
-    'app_map'          => [],
+    'app_map'          => [
+//                'think' => 'admin'
+    ],
     // 域名绑定（自动多应用模式有效）
-    'domain_bind'      => [],
+    'domain_bind'      => [
+                'api.xn.mac' => 'api'
+    ],
     // 禁止URL访问的应用列表（自动多应用模式有效）
     'deny_app_list'    => ['common'],
 

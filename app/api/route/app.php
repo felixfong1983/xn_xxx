@@ -12,4 +12,9 @@ use think\facade\Route;
 
 
 
-//Route::get('/', 'index/api/index');
+//Route::get('/', 'api/index/index');
+Route::get('home', 'api/index/init');
+
+//Route::rule('/init','api/index/init');
+
+

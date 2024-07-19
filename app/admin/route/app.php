@@ -11,5 +11,3 @@
 use think\facade\Route;
 
 
-
-//Route::get('arud', 'index/admin');
