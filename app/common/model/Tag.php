@@ -20,12 +20,12 @@ class Tag extends Model
 
 
     //获取当前语言首页显示的标签
-    public function getIndexTagsByLang($langId)
+    public function getIndexTagsByLang($langId,$rows)
     {
         return $this->name('tag')->alias('t')->field('t.id,t.name')
             ->join('tag_lang_access tl','t.id = tl.tag_id')
             ->join('language l','l.id = tl.lang_id')
-            ->where(['type' => 1,'l.id' => $langId])->select()->toArray();
+            ->where(['type' => 1,'l.id' => $langId])->order('clicks','desc')->limit(0,$rows)->select()->toArray();
     }
 
 

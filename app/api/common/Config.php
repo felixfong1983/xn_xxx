@@ -52,7 +52,12 @@ class Config
         return $seoData;
     }
 
-
+    //获取系统开放的语言列表
+    public function getIsOpenLanguage()
+    {
+        $model = new \app\common\model\Language();
+        return $model->getIsOpen()->toArray();
+    }
 
 
 

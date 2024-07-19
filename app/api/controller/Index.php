@@ -10,25 +10,29 @@ use think\response\Json;
 class Index extends Base
 {
 
-
-
     //主页信息
     public function init() : Json
     {
-        $lang = app('app\api\common\Language',[Cookie::get('lang')])->getLangPacks($this->visitor->langCode); //当前语种语言包
+        $lang = app('app\api\common\Language',[Cookie::get('lang')])
+            ->getLangPacks($this->visitor->langCode); //当前语种语言包
         //dump($lang);
-        $tags = app('app\api\common\Tag')->getTags($this->visitor->lang_id);
+        $tags = app('app\api\common\Tag')
+            ->getTags($this->visitor->lang_id,$this->request->param('tag_rows',100));
 
         //dump($tags);
-        $videoList = app('app\api\common\Video')->getBestVideoList($this->request->param('rows',30));
+        $videoList = app('app\api\common\Video')
+            ->getBestVideoList($this->request->param('video_rows',30));
         //dump($videoList);
 
-        $config = app('app\api\common\Config')->getWebConfigByLangId($this->visitor->lang_id);
+        $configObj = app('app\api\common\Config');
+        $config = $configObj->getWebConfigByLangId($this->visitor->lang_id);
+        $langList = $configObj->getIsOpenLanguage();//开放的语言列表
         return $this->success([
             'lang' => $lang,
             'tags' => $tags,
             'videoList' => $videoList,
             'config' => $config,
+            'langList' => $langList,
             'visitor' => [
                 'sexual_orientation' => $this->visitor->sexual_orientation,
                 'name' => $this->visitor->name,
@@ -40,6 +44,7 @@ class Index extends Base
     //标签页及搜索页
     public function tag_videos_list() : Json
     {
+
         $videoList = app('app\api\common\Video')
             ->getVideoList($this->request->param('tag_id','rows'));
         $config = app('app\api\common\Config')->SeoData($videoList);
