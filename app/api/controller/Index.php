@@ -11,18 +11,10 @@ class Index extends Base
 {
 
     //页面 title  description keywords 数据
-    public function config()
+    public function config() : Json
     {
-
-    }
-
-    public function api()
-    {
-        try {
-
-        }catch (\Exception $e){
-
-        }
+        $config = app('app\api\common\Config')->getWebConfigByLangId($this->visitor->lang_id);
+        return json(['config' => $config]);
     }
 
 
@@ -30,7 +22,7 @@ class Index extends Base
     //主页信息
     public function init() : Json
     {
-        $lang = app('app\api\common\Language',[Cookie::get('lang')])->getLang(); //当前语种语言包
+        $lang = app('app\api\common\Language',[Cookie::get('lang')])->getLangPacks($this->visitor->langCode); //当前语种语言包
         //dump($lang);
         $tags = app('app\api\common\Tag')->getTags($this->visitor->lang_id);
         //dump($tags);

@@ -7,7 +7,7 @@ return [
     // 默认语言
     'default_lang'    => 'zh-cn',
     // 允许的语言列表
-    'allow_lang_list' => ['en-us','zh-tw','zh-cn'],
+    'allow_lang_list' => ['en','zh-tw','zh-cn'],
     // 多语言自动侦测变量名
     'detect_var'      => 'lang',
     // 是否使用Cookie记录

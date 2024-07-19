@@ -18,10 +18,10 @@ class Language extends Model
         return $this->where(['open' => 1])->select();
     }
 
-    //通过语言值获取ID
+    //通过语言值获取语言id  而且是系统已经开放的
     public function getIdByCode($code)
     {
-        return $this->where(['iso_code' => $code])->value('id');
+        return $this->where(['iso_code' => $code,'open' => 1])->value('id');
     }
 
     //通过ID获取语种

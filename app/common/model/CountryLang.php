@@ -11,4 +11,5 @@ use think\Model;
 class CountryLang extends Model
 {
     //
+
 }
