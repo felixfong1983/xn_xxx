@@ -17,7 +17,8 @@ class Video extends Model
     //后台读取视频列表
     public function getVideoList()
     {
-        return $this->field('id,video_id,title,img,cover_video,dislikes,likes,definition,length,is_online')->order('id desc')->select();
+        return $this->field('id,video_id,title,img,cover_video,dislikes,likes,definition,length,is_online')
+            ->order('id desc')->select();
     }
 
     //根据标签读取视频列表
@@ -46,5 +47,11 @@ class Video extends Model
             ->paginate($rows)->toArray();
     }
 
+    //搜索功能   通过搜索词查找
+    public function search($search,$rows)
+    {
+        return $this->where('title','like','%'.$search.'%')
+            ->where('is_online',1)->paginate($rows)->toArray();
+    }
 
 }

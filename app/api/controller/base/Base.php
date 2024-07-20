@@ -21,12 +21,10 @@ class Base
 
     public function __construct(Request $request)
     {
+
         $this->request = $request;
+
         $this->visitor = new Visitor();
-
-
-//        dump($this->visitor);
-
 
 
     }

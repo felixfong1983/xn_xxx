@@ -17,6 +17,7 @@ Route::get('home', 'api/index/init');
 Route::get('video_list', 'api/index/tag_videos_list');
 Route::get('play', 'api/index/video_detail');
 Route::get('lang','api/index/chang_language');
+Route::get('search','api/index/search');
 
 
 

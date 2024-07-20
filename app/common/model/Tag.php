@@ -51,6 +51,12 @@ class Tag extends Model
             ->where(['vt.video_id' => $videoId])->select()->toArray();
     }
 
+    //查找是否有这个标签存在
+    public function isExist($tagName)
+    {
+        return $this->where('name',$tagName)->value('id');
+    }
+
 
 
 }

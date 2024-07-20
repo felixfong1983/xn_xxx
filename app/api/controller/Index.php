@@ -18,16 +18,16 @@ class Index extends Base
     {
         try {
 
-            validate(Param::class)->check($this->request->param());
+            validate(Param::class)->check($this->request->get());
             $lang = app('app\api\common\Language',[Cookie::get('lang')])
                 ->getLangPacks($this->visitor->langCode); //当前语种语言包
             //dump($lang);
             $tags = app('app\api\common\Tag')
-                ->getTags($this->visitor->lang_id,$this->request->param('tag_rows',30));
+                ->getTags($this->visitor->lang_id,$this->request->get('tag_rows',30));
 
             //dump($tags);
             $videoList = app('app\api\common\Video')
-                ->getBestVideoList($this->request->param('video_rows',30));
+                ->getBestVideoList($this->request->get('video_rows',30));
             //dump($videoList);
 
             $configObj = app('app\api\common\Config');
@@ -55,10 +55,10 @@ class Index extends Base
     public function tag_videos_list() : Json
     {
         try {
-            $param = $this->request->param();
-            validate(Param::class)->check($this->request->param());
+            $param = $this->request->get();
+            validate(Param::class)->check($this->request->get());
             $videoList = app('app\api\common\Video')
-                ->getVideoList($param['tag_id'],$param['rows']);
+                ->getVideoList($param['tag_id'],$param['video_rows']);
             $config = app('app\api\common\Config')->SeoData($videoList);
 
             return $this->success(['videoList' => $videoList,'config' => $config]);
@@ -69,11 +69,35 @@ class Index extends Base
     }
 
 
+    //搜索功能
+    public function search() : Json
+    {
+        try {
+            $param = $this->request->get();
+            $rows = isset($param['rows']) ? (int)$param['rows'] : 30;
+            validate(Param::class)->check($param);//验证搜索词  重要
+            $result = app('app\api\common\Search')->search($param['search'],$rows);
+            if(is_numeric($result)){  //如果查了已经有了这个tag 就直接通过标签ID查询
+                $videoList = app('app\api\common\Video')
+                    ->getVideoList($result,$rows);
+                $config = app('app\api\common\Config')->SeoData($videoList);
+                return $this->success(['videoList' => $videoList,'config' => $config]);
+            }else{
+                return $this->success(['videoList' => $result]);
+            }
+        }catch (ValidateException $e)
+        {
+            return $this->error($e->getError());
+        }
+
+    }
+
+
     //视频播放页
     public function video_detail() : Json
     {
         try {
-            $param = $this->request->param();
+            $param = $this->request->get();
             validate(Param::class)->check($param);
             $video = app('app\api\common\Video')->getVideoById($param['id']);
             if (!$video)  return $this->error('this id is not exist');
@@ -89,10 +113,10 @@ class Index extends Base
 
 
     //用户修改语言
-    public function chang_language()
+    public function chang_language() : Json
     {
 
-        $langCode = $this->request->param('lang');
+        $langCode = $this->request->get('lang');
         $languageModel = new Language();
         $openLang = $languageModel->getIsOpen();
         $isOpenLangArr = array_column($openLang,'iso_code');
