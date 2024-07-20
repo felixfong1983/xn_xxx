@@ -16,9 +16,6 @@ class Config
     }
 
 
-
-
-
     //通过语言ID找出当前语言网站TITLE、描述、关健词
     public function getWebConfigByLangId($langId)
     {
@@ -57,7 +54,7 @@ class Config
     public function getIsOpenLanguage()
     {
         $model = new \app\common\model\Language();
-        return $model->getIsOpen()->toArray();
+        return $model->getIsOpen();
     }
 
 

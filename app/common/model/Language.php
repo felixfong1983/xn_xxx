@@ -15,7 +15,7 @@ class Language extends Model
     //读取已开放的语言
     public function getIsOpen()
     {
-        return $this->field('id,iso_code')->where(['open' => 1])->select();
+        return $this->field('id,iso_code')->where(['open' => 1])->select()->toArray();
     }
 
     //通过语言值获取语言id  而且是系统开放的
