@@ -33,7 +33,7 @@ class Video extends Model
     //前台视频播放页  判断is_online 是否上架
     public function getVideoById($id)
     {
-        $data = $this->field('id,video_id,thumbs_lide_big,thumbs_lide,thumbs_url,title,img,cover_video,dislikes,likes,definition,length,play_page')
+        $data = $this->field('id,video_id,thumbs_lide_big,thumbs_lide_min,thumbs_lide,thumbs_url,title,img,views,cover_video,dislikes,likes,definition,length,play_page')
             ->where(['is_online' => 1])->find($id);
         if($data) return $data->toArray();
         return false;

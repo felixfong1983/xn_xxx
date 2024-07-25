@@ -36,8 +36,19 @@ class Video
         }
         $data = $this->videoModel->getVideoById($id);
         if(!$data) return false;
-        $urlInfo = VideoLink::getPlayLink(['play_page' => $data['play_page']]);
+        $param = ['play_page' => $data['play_page']];
+        if(empty($data['thumbs_lide_min'])){
+            $param['get_lide_min'] = 1;
+        }
+
+        $urlInfo = VideoLink::getPlayLink($param);
         if($urlInfo['code'] != 200) return false;
+        if(isset($param['get_lide_min'])){
+            //todo 以后要考虑更新失败情况
+            $this->videoModel->where('id',$id)->update(['thumbs_lide_min' => $urlInfo['data']['thumb_slide_min']]);
+            $data['thumbs_lide_min'] = $urlInfo['data']['thumb_slide_min'];
+        }
+
         unset($data['play_page']);
         $data['src'] = $urlInfo['data']['url'];
         $tagModel = new \app\common\model\Tag();
