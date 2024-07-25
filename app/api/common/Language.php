@@ -9,7 +9,6 @@ use think\facade\Request;
 class Language
 {
 
-
     public string $langCode;    //语言码
     public int $langId;          //数据库语言id
 

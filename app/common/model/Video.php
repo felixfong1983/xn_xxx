@@ -33,7 +33,7 @@ class Video extends Model
     //前台视频播放页  判断is_online 是否上架
     public function getVideoById($id)
     {
-        $data = $this->field('id,video_id,title,img,cover_video,dislikes,likes,definition,length')
+        $data = $this->field('id,video_id,thumbs_lide_big,thumbs_lide,thumbs_url,title,img,cover_video,dislikes,likes,definition,length,play_page')
             ->where(['is_online' => 1])->find($id);
         if($data) return $data->toArray();
         return false;
@@ -53,5 +53,14 @@ class Video extends Model
         return $this->where('title','like','%'.$search.'%')
             ->where('is_online',1)->paginate($rows)->toArray();
     }
+
+    //根据视频ID找出采集站视频站播放页
+    public function getPlayPageByid($id)
+    {
+        return $this->where('id',$id)->column('play_page');
+    }
+
+
+
 
 }

@@ -1,31 +1,31 @@
 <?php
     return [
         'index' => [
-            'best videos' => 'best video',    //
+            'best_videos' => 'best video',    //
             'search'     => 'search x videos',
             'tags'       => 'categories',
-            'all tags'   => 'All tags',
+            'all_tags'   => 'All tags',
             'category'   => '',
             'pre'        => 'pre',
             'next'       => 'next',
         ],
         'video_list' => [
             'result'        => 'Result',
-            'no result'     => 'No result',
+            'no_result'     => 'No result',
             'random'        => 'Random',
             'rating'        => 'rating',
             'length'        => 'length',
             'views'         => 'views',
             'anytime'       => 'anytime',
-            'last 3 days'   => 'last 3 days',
-            'this week'     => 'this week',
-            'this month'    => 'this month',
+            'last_3_days'   => 'last 3 days',
+            'this_week'     => 'this week',
+            'this_month'    => 'this month',
         ],
         'video_play' => [
             'comments'          => 'comments',
-            'post a comment'    => 'Post a comment',
+            'post_a_comment'    => 'Post a comment',
             'share'             => 'Share',
-            'more videos'       => 'see more videos'
+            'more_videos'       => 'see more videos'
         ],
 
 

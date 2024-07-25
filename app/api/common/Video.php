@@ -3,6 +3,7 @@
 namespace app\api\common;
 use app\common\model\Video as VideoModel;
 use app\common\service\VideoLink;
+use think\facade\Cache;
 
 
 class Video
@@ -30,11 +31,19 @@ class Video
 
     public function getVideoById($id)
     {
+        if(Cache::has('video' . $id)){
+            return Cache::get('video' . $id);
+        }
         $data = $this->videoModel->getVideoById($id);
         if(!$data) return false;
-        $data['src'] = VideoLink::getPlayLink(['video_id' => $data['video_id']]);
+        $urlInfo = VideoLink::getPlayLink(['play_page' => $data['play_page']]);
+        if($urlInfo['code'] != 200) return false;
+        unset($data['play_page']);
+        $data['src'] = $urlInfo['data']['url'];
         $tagModel = new \app\common\model\Tag();
         $data['tags'] = $tagModel->getTagsByVideoId($data['id']);
+        //todo 需要做缓存
+        Cache::set('video' . $id,$data,60*60*3); //3小时
         return $data;
     }
 
