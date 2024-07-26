@@ -1,4 +1,4 @@
-<?php /*a:4:{s:52:"/media/psf/www/xnadmin/app/admin/view/tag/index.html";i:1720869448;s:47:"/media/psf/www/xnadmin/app/admin/view/main.html";i:1710494398;s:53:"/media/psf/www/xnadmin/app/admin/view/breadcrumb.html";i:1588062166;s:52:"/media/psf/www/xnadmin/app/admin/view/list_rows.html";i:1711170498;}*/ ?>
+<?php /*a:4:{s:52:"/media/psf/www/xnadmin/app/admin/view/tag/index.html";i:1721962982;s:47:"/media/psf/www/xnadmin/app/admin/view/main.html";i:1710494398;s:53:"/media/psf/www/xnadmin/app/admin/view/breadcrumb.html";i:1588062166;s:52:"/media/psf/www/xnadmin/app/admin/view/list_rows.html";i:1711170498;}*/ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,7 +48,9 @@
         <tr>
           <th>Id</th>
           <th>标签名</th>
+          <th>点击数</th>
           <th>语言</th>
+          <th>状态</th>
           <th>操作</th>
         </tr>
         </thead>
@@ -57,6 +59,7 @@
         <tr>
           <td><?php echo htmlentities($vo['id']); ?></td>
           <td><?php echo htmlentities($vo['name']); ?></td>
+          <td><?php echo htmlentities($vo['clicks']); ?></td>
           <td>
           <?php if(is_array($vo['lang_info']) || $vo['lang_info'] instanceof \think\Collection || $vo['lang_info'] instanceof \think\Paginator): if( count($vo['lang_info'])==0 ) : echo "" ;else: foreach($vo['lang_info'] as $key=>$langV): ?>
             <a href="<?php echo url('delTagLang',array('tag_id'=>$vo['id'],'lang_id'=>$langV['id'])); ?>" type="button" class="layui-btn layui-btn-sm xn_delete" title="确认删除？"><?php echo htmlentities($langV['code']); ?></a>
@@ -65,7 +68,7 @@
               <i class="layui-icon layui-icon-add-1"></i>
             </a>
           </td>
-
+          <td><?php echo htmlentities($vo['type']); ?></td>
           <td>
             <a href="<?php echo url('deleteTag',array('id'=>$vo['id'])); ?>" class="xn_delete layui-btn-sm layui-btn layui-bg-red" title="are u sure？">
               删除

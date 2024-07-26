@@ -11,7 +11,9 @@
         <tr>
           <th>Id</th>
           <th>标签名</th>
+          <th>点击数</th>
           <th>语言</th>
+          <th>状态</th>
           <th>操作</th>
         </tr>
         </thead>
@@ -20,6 +22,7 @@
         <tr>
           <td>{$vo.id}</td>
           <td>{$vo.name}</td>
+          <td>{$vo.clicks}</td>
           <td>
           {foreach name="vo.lang_info" item="langV"}
             <a href="{:url('delTagLang',array('tag_id'=>$vo['id'],'lang_id'=>$langV['id']))}" type="button" class="layui-btn layui-btn-sm xn_delete" title="确认删除？">{$langV.code}</a>
@@ -28,7 +31,7 @@
               <i class="layui-icon layui-icon-add-1"></i>
             </a>
           </td>
-
+          <td>{$vo.type}</td>
           <td>
             <a href="{:url('deleteTag',array('id'=>$vo['id']))}" class="xn_delete layui-btn-sm layui-btn layui-bg-red" title="are u sure？">
               删除

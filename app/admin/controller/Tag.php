@@ -15,7 +15,7 @@ class Tag extends AdminBase
 {
     public function index()
     {
-        $tagDataObj = TagModel::field('id,name,type')->paginate(['list_rows'=>$this->request->param('limit',15)]);
+        $tagDataObj = TagModel::field('id,name,clicks,type')->paginate(['list_rows'=>$this->request->param('limit',15)]);
         $page = $tagDataObj->render(); //分页信息
         $tagData = $tagDataObj->toArray();
         foreach ($tagData['data'] as $v)
