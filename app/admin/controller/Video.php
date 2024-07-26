@@ -35,12 +35,12 @@ class Video extends AdminBase
             $tags[$k]['name'] = $tag->name;
             $tags[$k]['id'] = $tag->id;
         }
-//        dump($videoInfo);
-        //获取视频播放地址
-        $playLink = VideoLink::getPlayLink(['video_id' =>$videoInfo->video_id]);
 
-        $videoInfo->src = $playLink ? $playLink : 0;
-        $videoInfo->linkStatus = VideoLink::isUrlValid($playLink) ? 'success' : 'error';
+        //获取视频播放地址
+        $playLink = VideoLink::getPlayLink(['play_page' =>$videoInfo->play_page]);
+
+        $videoInfo->src = $playLink['data']['url'] ? $playLink['data']['url'] : 0;
+        $videoInfo->linkStatus = VideoLink::isUrlValid($playLink['data']['url']) ? 'success' : 'error';
 
         return view('from',['videoInfo' => $videoInfo,'tags' => $tags]);
     }
