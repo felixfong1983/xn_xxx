@@ -13,7 +13,8 @@ class Param extends Validate
         'tag_id' => 'number',
         'rows' => 'number',
         'id' => 'number',
-        'search'=>'alphaNum'
+        'search' => 'alphaNum',
+        'like' => 'number',
     ];
 
     protected $message  =   [
@@ -24,8 +25,8 @@ class Param extends Validate
         'rows.number' => 'rows.error',
         'id.number' => 'id.error',
         'search.alphaNum' => 'search.error',
-        'id.require' => 'id.must',
-        'search.require' => 'search.must'
+        'search.require' => 'search.must',
+        'like.number' => 'like.error',
     ];
 
 

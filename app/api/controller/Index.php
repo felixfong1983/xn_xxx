@@ -6,6 +6,7 @@ namespace app\api\controller;
 use app\api\controller\base\Base;
 use app\api\validate\Param;
 use app\common\model\Language;
+use think\Exception;
 use think\exception\ValidateException;
 use think\facade\Cookie;
 use think\response\Json;
@@ -32,7 +33,7 @@ class Index extends Base
 
             $configObj = app('app\api\common\Config');
             $config = $configObj->getWebConfigByLangId($this->visitor->lang_id);
-            $config['logo'] = './logo.jpg';
+            $config['logo'] = './logo.png';  //todo 这个图片临时的
             $langList = $configObj->getIsOpenLanguage();//开放的语言列表
             return $this->success([
                 'lang' => $lang,
@@ -42,7 +43,7 @@ class Index extends Base
                 'langList' => $langList,
                 'visitor' => [
                     'sexual_orientation' => $this->visitor->sexual_orientation,
-                    'name' => $this->visitor->name,
+//                    'name' => $this->visitor->name,
                 ],
             ]);
         }catch (ValidateException $e){
@@ -51,71 +52,10 @@ class Index extends Base
 
     }
 
-    //标签页及搜索页
-    public function tag_videos_list() : Json
-    {
-        try {
-            $param = $this->request->get();
-            validate(Param::class)->check($this->request->get());
-            $videoList = app('app\api\common\Video')
-                ->getVideoList($param['tag_id'],$param['video_rows']);
-            $config = app('app\api\common\Config')->SeoData($videoList);
-
-            return $this->success(['videoList' => $videoList,'config' => $config]);
-        }catch (ValidateException $e){
-            return $this->error($e->getError());
-        }
-
-    }
-
-
-    //搜索功能
-    public function search() : Json
-    {
-        try {
-            $param = $this->request->get();
-            $rows = isset($param['rows']) ? (int)$param['rows'] : 30;
-            validate(Param::class)->check($param);//验证搜索词  重要
-            $result = app('app\api\common\Search')->search($param['search'],$rows);
-            if(is_numeric($result)){  //如果查了已经有了这个tag 就直接通过标签ID查询
-                $videoList = app('app\api\common\Video')
-                    ->getVideoList($result,$rows);
-                $config = app('app\api\common\Config')->SeoData($videoList);
-                return $this->success(['videoList' => $videoList,'config' => $config]);
-            }else{
-                return $this->success(['videoList' => $result]);
-            }
-        }catch (ValidateException $e)
-        {
-            return $this->error($e->getError());
-        }
-
-    }
-
-
-    //视频播放页
-    public function video_detail() : Json
-    {
-        try {
-            $param = $this->request->get();
-            validate(Param::class)->check($param);
-            $video = app('app\api\common\Video')->getVideoById($param['id']);
-            if (!$video)  return $this->error('this id is not exist');
-            $config = app('app\api\common\Config')->SeoData($video);
-            return $this->success(['videoDetail' => $video,'config' => $config]);
-        }catch (ValidateException $e){
-            return $this->error($e->getError());
-        }
-
-    }
-
-
-
 
     //用户修改语言
     public function chang_language() : Json
     {
-
         $langCode = $this->request->get('lang');
         $languageModel = new Language();
         $openLang = $languageModel->getIsOpen();
@@ -129,14 +69,30 @@ class Index extends Base
             Cookie::set('lang','en');
             return $this->success(['langCode' => 'en']);
         }
-
     }
 
-
-    public function __call($name, $arguments)
+    //访问者点赞或点踩
+    public function like_or_dislike() : Json
     {
-        return $this->error(['name' => $name]);
+        try {
+            $param = $this->request->param();
+            validate(Param::class)->check($param);
+            $id = $param['id'];
+            $like =  intval($param['like']) === 1 ? 1 : 0;
+            $result = app('app\api\common\Video')->likeOrDislike($id,$like);
+            if($result) return $this->success(['code' => 200]);
+            return $this->error(['code' => 400]);
+        }catch(ValidateException $e)
+        {
+            return $this->error($e->getError());
+        }
+
+
     }
+
+
+
+
 
 
 

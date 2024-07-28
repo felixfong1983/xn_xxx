@@ -25,7 +25,7 @@ class Tag extends Model
         return $this->name('tag')->alias('t')->field('t.id,t.name')
             ->join('tag_lang_access tl','t.id = tl.tag_id')
             ->join('language l','l.id = tl.lang_id')
-            ->where(['type' => 1,'l.id' => $langId])->order('clicks','desc')->limit(0,$rows)->select()->toArray();
+            ->where(['l.id' => $langId])->order('clicks','desc')->limit($rows)->select()->toArray();
     }
 
 

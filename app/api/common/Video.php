@@ -49,16 +49,23 @@ class Video
             $data['thumbs_lide_min'] = $urlInfo['data']['thumb_slide_min'];
         }
 
-        unset($data['play_page']);
         $data['src'] = $urlInfo['data']['url'];
         $tagModel = new \app\common\model\Tag();
         $data['tags'] = $tagModel->getTagsByVideoId($data['id']);
+        $data['video_list'] = $this->videoModel->getVideoByChannelId($data['channel_id'],40);//通过频道找相关视频
+        // todo 如果频道视频不满足数量，再通过标签找相关视频
+//        dump($data);
+        unset($data['play_page']);
+        unset($data['channel_id']);
         //todo 需要做缓存
         Cache::set('video' . $id,$data,60*60*3); //3小时
         return $data;
     }
 
-
+    public function likeOrDislike($id,$like)
+    {
+        return $this->videoModel->like($id,$like);
+    }
 
 
 }

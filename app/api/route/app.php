@@ -14,10 +14,11 @@ use think\facade\Route;
 
 //Route::get('/', 'api/index/index');
 Route::get('home', 'api/index/init');
-Route::get('video_list', 'api/index/tag_videos_list');
-Route::get('play', 'api/index/video_detail');
+Route::get('video_list', 'api/VideoList/tag_videos_list');
+Route::get('play', 'api/Video/video_detail');
 Route::get('lang','api/index/chang_language');
-Route::get('search','api/index/search');
+Route::get('search','api/VideoList/search');
+Route::get('like','api/index/like_or_dislike');
 
 
 

@@ -38,7 +38,7 @@ class Video extends AdminBase
 
         //获取视频播放地址
         $playLink = VideoLink::getPlayLink(['play_page' =>$videoInfo->play_page]);
-
+//        dump($playLink);
         $videoInfo->src = $playLink['data']['url'] ? $playLink['data']['url'] : 0;
         $videoInfo->linkStatus = VideoLink::isUrlValid($playLink['data']['url']) ? 'success' : 'error';
 

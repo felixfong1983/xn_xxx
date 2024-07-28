@@ -26,6 +26,8 @@ class Base
 
         $this->visitor = new Visitor();
 
+        $controller = $this->request->controller();
+        $action = $this->request->action();
 
     }
 
@@ -49,7 +51,10 @@ class Base
         return redirect($url,302);
     }
 
-
+    public function __call($name, $arguments)
+    {
+        return $this->error(['name' => $name]);
+    }
 
 
 }

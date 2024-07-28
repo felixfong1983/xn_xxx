@@ -7,6 +7,8 @@ use think\Model;
 class Video extends Model
 {
 
+    protected string $listField = 'id,title,img,dislikes,likes,definition,length,views,release_time';
+    protected $playField = 'id,channel_id,thumbs_lide_big,thumbs_lide_min,thumbs_lide,thumbs_url,title,img,views,dislikes,likes,definition,length,play_page';
 
     public function tag()
     {
@@ -25,15 +27,15 @@ class Video extends Model
     public function getVideoByTag($tagId,$rows)
     {
         return $this->name('video')->alias('v')
-            ->field('v.id,v.video_id,v.title,v.img,v.cover_video,v.dislikes,v.likes,v.definition,v.length')
+            ->field('v.id,v.title,v.img,v.dislikes,v.likes,v.definition,v.length,v.views,v.release_time')
             ->join('video_tag_access vt','vt.video_id = v.id')
-            ->where(['is_online' => 1,'vt.tag_id' => $tagId])->paginate($rows)->toArray();
+            ->where(['is_online' => 1,'vt.tag_id' => $tagId])->order('release_time desc')->paginate($rows)->toArray();
     }
 
-    //前台视频播放页  判断is_online 是否上架
+    //前台视频播放页  需要判断is_online 是否上架
     public function getVideoById($id)
     {
-        $data = $this->field('id,video_id,thumbs_lide_big,thumbs_lide_min,thumbs_lide,thumbs_url,title,img,views,cover_video,dislikes,likes,definition,length,play_page')
+        $data = $this->field($this->playField)
             ->where(['is_online' => 1])->find($id);
         if($data) return $data->toArray();
         return false;
@@ -42,8 +44,8 @@ class Video extends Model
     //主页最佳视频
     public function getBestVideoList($rows)
     {
-        return $this->field('id,video_id,title,img,cover_video,dislikes,likes,definition,length')
-            ->where(['is_online' => 1])->order('likes desc')
+        return $this->field($this->listField)->field($this->listField)
+            ->where(['is_online' => 1])->order('release_time desc')
             ->paginate($rows)->toArray();
     }
 
@@ -51,6 +53,7 @@ class Video extends Model
     public function search($search,$rows)
     {
         return $this->where('title','like','%'.$search.'%')
+            ->field($this->listField)
             ->where('is_online',1)->paginate($rows)->toArray();
     }
 
@@ -58,6 +61,19 @@ class Video extends Model
     public function getPlayPageByid($id)
     {
         return $this->where('id',$id)->column('play_page');
+    }
+
+    //通过频道ID查找相关视频
+    public function getVideoByChannelId($channelId,$rows)
+    {
+        return $this->where('channel_id',$channelId)->field($this->listField)->paginate($rows)->toArray();
+    }
+
+    //视频like和dislike加一
+    public function like($id,$like)
+    {
+        if($like === 1) return $this->where('id',$id)->inc('likes',1)->save();
+        return $this->where('id',$id)->inc('dislikes',1)->save();
     }
 
 
