@@ -25,9 +25,7 @@ class Base
         $this->request = $request;
 
         $this->visitor = new Visitor();
-
-        $controller = $this->request->controller();
-        $action = $this->request->action();
+//        var_dump($this->visitor);
 
     }
 

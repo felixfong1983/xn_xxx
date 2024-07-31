@@ -3,6 +3,7 @@
 namespace app\api\common;
 use app\api\common\Country;
 use app\common\model\Country as CountryModel;
+use app\common\model\VisitorPath;
 use app\common\service\Crpy;
 use app\common\service\GetIPInfo;
 use app\common\service\RandomName;
@@ -23,6 +24,13 @@ class Visitor
     public int $sexual_orientation = 1;
     public int $id;
 
+    //相关访问路径
+    protected $controller;
+    protected $action;
+    protected $param;
+
+
+
     public function __construct()
     {
 
@@ -31,10 +39,11 @@ class Visitor
         if(Cookie::has($this->cookieName))
         {
             $this->oldVisitor();
-            return $this;
+        }else{
+            $this->newVisitor();
         }
-        $this->newVisitor();
-
+        $this->visitorPath();
+//        var_dump($this);
         return $this;
     }
 
@@ -43,7 +52,7 @@ class Visitor
     {
         $this->ip = Request::ip(); //获取IP地址
         $visitorCountryInfo = GetIPInfo::getCountryInfo($this->ip);//通过IP查国家信息
-        //dump($visitorCountryInfo);
+//        dump($visitorCountryInfo);
         $country = new Country();
         $this->country_id = $country->getIDByCountryCode2($visitorCountryInfo['countryCode']);//所在国家信息
 
@@ -92,6 +101,25 @@ class Visitor
         $this->id = $values->id;
 
     }
+
+    //记录用户的每次访问数据
+    public function visitorPath()
+    {
+        $data = [];
+        $data['visitor_name'] = $this->name;
+        $data['visitor_id'] = $this->id;
+        $data['controller'] = Request::controller();
+        $data['action'] = Request::action();
+        $data['param'] = serialize(Request::param());
+        $data['time'] = date('Y-m-d H:i:s');
+        $data['ip'] = $this->ip;
+        $data['country_id'] = $this->country_id;
+        VisitorPath::create($data);
+        //todo  以后可以做对列
+    }
+
+
+
 
 
 }
