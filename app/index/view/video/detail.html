@@ -1,0 +1,53 @@
+{include file="header"}
+<link rel="stylesheet" type="text/css" href="./index/detail.css">
+<link rel="stylesheet" type="text/css" href="./index/index.css">
+<link href="https://vjs.zencdn.net/7.21.1/video-js.css" rel="stylesheet">
+<body>
+    <div class="main">
+        {include file="nav"}
+        <div class="detail-box">
+            <div class="title2-content">
+                <div class="title2-box">
+                    <div class="title2">{$data.video.title}</div>
+                    
+                </div>
+                <div class="clearContent">
+                    <div class="clear2">{$data.video.definition}</div>
+                    <div class="time2">{$data.video.length}</div>
+                </div>
+            </div>
+            <div class="video2-content">
+                <video id="video" class="video2-preview video-js vjs-default-skin" preload="auto"  controls >
+                    <source src="{$data.video.src}" type="application/x-mpegURL" >
+                </video>
+                <!-- <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div> -->
+                <div class="preview-container">
+                    <img id="preview_detail" src="{$data.video.thumbs_url}" alt="Preview" >
+                </div>
+                <div class="ad2-box">
+                    广告
+                </div>
+            </div>
+            <div class="line2-box">
+            </div>
+            <div class="recommand-content">
+                <div class="recommand-title">相关推荐</div>
+                {include file="video_list"}
+                <div class="recommand-btn-box">
+                    <div class="recommand-btn">加载更多</div>
+                </div>
+            </div>
+        </div>
+
+        {include file="footer"}
+    </div>
+    <script src="https://vjs.zencdn.net/7.21.1/video.min.js"></script>
+    <script>
+        var player = videojs('video');
+    </script>
+</body>
+<script src="./index/detail.js"></script>
+<script src="./index/index.js"></script>
+</html>

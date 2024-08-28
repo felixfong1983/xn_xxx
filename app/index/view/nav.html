@@ -1,0 +1,27 @@
+<div class="nav-box">
+    <div class="search-box">
+        <img href="./logo.png" alt=""/>
+        <div class="search">
+            <input class="input" />
+            <img class="icon" src="./index/img/clear.png" />
+            <div class="propt">
+                <div class="title">热门搜索</div>
+                <div class="propt-box">
+                    <div class="propt-item">搜索测试1</div>
+                    <div class="propt-item">搜索测试1</div>
+                    <div class="propt-item">搜索测试1</div>
+                </div>
+            </div>
+        </div>
+        <button id="search" type="button" class="btn btn-secondary">search</button>
+    </div>
+    <div class="lable-box">
+        <div class="popver-box" style="display: none;">
+            {foreach name="data.tags" item="vo"}
+            <div class="popver-item"><a href="./t-{$vo.name}-{$vo.id}">{$vo.name}</a></div>
+            {/foreach}
+        </div>
+        <div class="lable" data-item="0"><a href="/">home</a></div>
+        <div class="lable" data-item="1"><a href="">tags</a></div>
+    </div>
+</div>

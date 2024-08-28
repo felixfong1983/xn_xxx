@@ -31,7 +31,7 @@ class Language extends ProcessBase
 //        dump($tagData);
 //        dump($insertData);
         echo 'ok';
-        die;
+
 
 
         foreach ($tagData as $k => $v)

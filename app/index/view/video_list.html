@@ -1,0 +1,35 @@
+<div class="video-content">
+    {foreach name="data.videoList.data" item="vo"}
+    <div class="box">
+        <div class="video">
+            <a href="/video-{$vo.id}-{$vo.url}">
+                <div class="videoContent">
+                    <img class="imgCover"
+                         src="{$vo.img}"
+                         alt="">
+                    <video class="video-preview" muted preload="metadata">
+                        <source src="{$vo.mp4}" type="video/mp4">
+                    </video>
+                </div>
+            </a>
+            <div class="clear">{$vo.definition}</div>
+            <div class="time">{$vo.length}</div>
+        </div>
+        <div class="text">
+            <div class="title">
+                <a href="/pages/detail/detail.html">{$vo.title}</a>
+            </div>
+            <div class="l-title">
+                <div class="left">
+                    <img src="./index/img/view.png">
+                    <div>{$vo.views}</div>
+                </div>
+                <div class="right">
+                    <img src="./index/img/point.png" />
+                    <div>{$vo.likes}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {/foreach}
+</div>

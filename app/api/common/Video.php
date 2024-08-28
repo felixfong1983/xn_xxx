@@ -27,13 +27,17 @@ class Video
         return $this->videoModel->getBestVideoList($rows);
     }
 
-
+    //通过频道ID找相关视频
+    public function getVideoByChannelId($channelId,$rows)
+    {
+        return $this->videoModel->getVideoByChannelId($channelId,$rows);//通过频道找相关视频
+    }
 
     public function getVideoById($id)
     {
-        if(Cache::has('video' . $id)){
-            return Cache::get('video' . $id);
-        }
+//        if(Cache::has('video' . $id)){
+//            return Cache::get('video' . $id);
+//        }
         $data = $this->videoModel->getVideoById($id);
         if(!$data) return false;
         $param = ['play_page' => $data['play_page']];
@@ -42,7 +46,10 @@ class Video
         }
 
         $urlInfo = VideoLink::getPlayLink($param);
+
+        //todo 采集站会有视频下架的情况，如果发现视频下架，需要改成下架状态
         if($urlInfo['code'] != 200) return false;
+
         if(isset($param['get_lide_min'])){
             //todo 以后要考虑更新失败情况
             $this->videoModel->where('id',$id)->update(['thumbs_lide_min' => $urlInfo['data']['thumb_slide_min']]);
@@ -52,11 +59,11 @@ class Video
         $data['src'] = $urlInfo['data']['url'];
         $tagModel = new \app\common\model\Tag();
         $data['tags'] = $tagModel->getTagsByVideoId($data['id']);
-        $data['video_list'] = $this->videoModel->getVideoByChannelId($data['channel_id'],40);//通过频道找相关视频
+
         // todo 如果频道视频不满足数量，再通过标签找相关视频
 //        dump($data);
         unset($data['play_page']);
-        unset($data['channel_id']);
+//        unset($data['channel_id']);
         //todo 需要做缓存
         Cache::set('video' . $id,$data,60*60*3); //3小时
         return $data;
